@@ -1,9 +1,10 @@
-// import TodoItem from "@/Components/Todo/TodoItem";
+import TodoItem from "@/Components/Todo/TodoItem";
 import FormAddTodo from "@/Components/Todo/FormAddTodo";
-import dynamic from "next/dynamic";
-const TodoItem = dynamic(() => import("@/Components/Todo/TodoItem"), {
-  ssr: false,
-});
+// import dynamic from "next/dynamic";
+// const TodoItem = dynamic(() => import("@/Components/Todo/TodoItem"), {
+//   ssr: false,
+// });
+
 export default function Todo() {
   return (
     <>
