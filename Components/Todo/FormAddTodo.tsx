@@ -12,6 +12,7 @@ export default function FormAddTodo() {
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [statusWarning, setStatusWarning] = useState(false);
 
   const newItem: newpostt = {
     title: title,
@@ -33,9 +34,13 @@ export default function FormAddTodo() {
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await mutateAsync();
-    setBody("");
-    setTitle("");
+    if ((title && body).length > 0) {
+      await mutateAsync();
+      setBody("");
+      setTitle("");
+    } else {
+      setStatusWarning(true);
+    }
   };
   return (
     <form
@@ -46,7 +51,7 @@ export default function FormAddTodo() {
         type="text"
         name="title"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => (setStatusWarning(false), setTitle(e.target.value))}
         placeholder="Enter title :"
         className="border-2 w-full px-3 py-2 rounded-md"
       />
@@ -54,12 +59,20 @@ export default function FormAddTodo() {
         name="description"
         placeholder="Enter description :"
         value={body}
-        onChange={(e) => setBody(e.target.value)}
+        onChange={(e) => (setStatusWarning(false), setBody(e.target.value))}
         className="border-2 w-full px-3 py-2 rounded-md resize-none"
       ></textarea>
+      <p
+        className={`${
+          statusWarning ? "block" : "hidden"
+        } text-gray-500 text-sm self-center`}
+      >
+        Title and Body should not be empty
+      </p>
       <button
         type="submit"
-        className="bg-indigo-600 hover:bg-indigo-700 text-white self-center rounded-md bg-opacity-85 py-2 px-5"
+        disabled={statusWarning}
+        className={`disabled:opacity-40 bg-indigo-600 hover:bg-indigo-700 text-white self-center rounded-md bg-opacity-85 py-2 px-5`}
       >
         Add Post
       </button>
